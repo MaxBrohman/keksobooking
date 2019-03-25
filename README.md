@@ -1,2 +1,2 @@
 # keksobooking
-HTML Academy
+Учебный проект HTML Academy
