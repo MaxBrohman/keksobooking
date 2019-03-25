@@ -30,10 +30,6 @@ export default class {
                 throw new Error(err.message);
             }
         };
-        sendData()
-            .then(response => {
-                if(response.ok) console.log(response);
-            })
-            .catch(error => this.reject.render(`Не удалось отправить данные на сервер. Ошибка ${error.message}. Попробуйте позже.`));;
+        return sendData();
     }
 };

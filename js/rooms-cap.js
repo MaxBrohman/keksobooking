@@ -24,9 +24,9 @@ export default class{
     checkRoomNumber(roomValue, guestsValue, elem){
         if(roomValue !== guestsValue){
             const invalid = `Вы не можете выбрать ${guestsValue} гостей для ${roomValue} комнат`;
-            if((roomValue == 100 && guestsValue == 0) || 
-            (roomValue == 3 && guestsValue != 0) || 
-            (roomValue == 2 && (guestsValue < 3 || guestsValue > 0))){
+            if((roomValue === '100' && guestsValue === '0') || 
+            (roomValue === '3' && guestsValue !== '0') || 
+            (roomValue === '2' && (guestsValue < 3 && guestsValue > 0))){
                 elem.style.borderColor = '#eee';
                 elem.setCustomValidity('');
             } else {
@@ -44,7 +44,6 @@ export default class{
     }
     validateMain(mainElem, relativeElem){
         this.checkRoomNumber(this.rooms.value, this.capacity.value, mainElem);
-        const event = new Event('validate');
-        relativeElem.dispatchEvent(event);
+        relativeElem.dispatchEvent(this.validate);
     }
 };

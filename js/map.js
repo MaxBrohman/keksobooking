@@ -8,9 +8,6 @@ import RoomsCap from './rooms-cap';
 import DragNDrop from './drag-n-drop';
 
 /* to do
-    post request
-    fix post response
-    complex validation
     file loader
     no pins case after filters
     features filter doesnt work
@@ -31,6 +28,7 @@ export default class{
         this.filters = document.querySelector('.map__filters-container');
         this.mainPin = this.pins.querySelector('.map__pin--main');
         this.notice = document.querySelector('.notice__form');
+        this.publishBtn = this.notice.querySelector('.form__submit');
         this.address = this.notice.querySelector('#address');
         this.type = document.querySelector('#type');
         this.price = document.querySelector('#price');
@@ -57,8 +55,16 @@ export default class{
             evt.preventDefault();
             const values = new FormData(this.notice);
             values.append('address', this.address.value);
-            const result = new Backend('https://js.dump.academy/keksobooking', onError).post(values);
-            console.log(result);
+            new Backend('https://js.dump.academy/keksobooking').post(values)
+            .then(response => {
+                if(response.ok) {
+                    this.publishBtn.textContent = 'Готово!';
+                    this.notice.reset();
+                } else{
+                    throw new Error('при отправке данных');
+                }
+            })
+            .catch(error => onError.render(`Не удалось отправить данные на сервер. Ошибка ${error.message}. Попробуйте позже.`));
         });
     }
 
