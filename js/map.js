@@ -9,9 +9,7 @@ import DragNDrop from './drag-n-drop';
 
 /* to do
     file loader
-    no pins case after filters
     features filter doesnt work
-    card closing after filters
 */
 
 const minPrice = {
@@ -70,30 +68,38 @@ export default class{
 
     pinHandler(pin){
         pin.addEventListener('click', () => {
-            this.map.replaceChild(new Card(pin.data).render(), this.map.querySelector('.map__card'));
+            this.appendCard(pin);
         });
         pin.addEventListener('keydown', (evt) => {
             evt.preventDefault();
-            this.map.replaceChild(new Card(pin.data).render(), this.map.querySelector('.map__card'));
+            this.appendCard(pin);
         });
         return pin;
     }
 
     renderPins(arr){
         this.map.querySelectorAll('.map__pin:not(.map__pin--main)').forEach(pin => pin.remove());
+        if(this._isCard){
+            this.map.querySelector('.map__card').remove();
+            this._isCard = false;
+        }
         const fragment = document.createDocumentFragment();
         arr.forEach(item => fragment.appendChild(this.pinHandler(new Pin(item).render())));
-        if(this._isCard){
-            this.map.replaceChild(new Card(arr[0]).render(), this.map.querySelector('.map__card'));
-        } else{
-            this.map.insertBefore(new Card(arr[0]).render(), this.filters);
-            this._isCard = true;
-        }
         this.type.addEventListener('change', () => {
             this.price.setAttribute('min', minPrice[this.type.value]);
             this.price.setAttribute('placeholder', minPrice[this.type.value]);
         });
         this.pins.appendChild(fragment);
+    }
+
+    appendCard(pin){
+        if(this._isCard){
+            this.map.replaceChild(new Card(pin.data).render(),                  this.map.querySelector('.map__card'));
+        } else{
+            this.map.insertBefore(new Card(pin.data).render(), 
+                this.filters);
+            this._isCard = true;
+        }
     }
 
     addFilters (obj) {
