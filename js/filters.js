@@ -1,5 +1,12 @@
 //filters.js
 
+export const minPrice = {
+    'flat': '1000',
+    'house': '5000',
+    'bungalo': '0',
+    'palace': '10000'
+};
+
 export const filterFields = {
     'type': document.querySelector('#housing-type'),
     'rooms': document.querySelector('#housing-rooms'),
@@ -27,9 +34,9 @@ export default class{
         return this.arr.filter(item => {
             switch(value){
                 case 'low':
-                    return item['offer']['price'] < 10000;
+                    return item['offer']['price'] < minPrice['flat'];
                 case 'middle':
-                    return item['offer']['price'] >= 10000 && item['offer']['price'] < 50000;
+                    return item['offer']['price'] >= minPrice['palace'] && item['offer']['price'] < 50000;
                 case 'high':
                     return item['offer']['price'] >= 50000;
             }
@@ -41,7 +48,7 @@ export default class{
             if(elem.checked) checkedFeatures.push(elem.value);
         }); 
         return this.arr.filter(item => {
-            return checkedFeatures.every(feature => item['offer']['features'].includes(feature)); 
+            return checkedFeatures.every(feature => item['offer']['features'].includes(feature));
         });
     }
 };

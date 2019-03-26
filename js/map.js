@@ -3,21 +3,13 @@ import Pin from './pin';
 import Card from './card';
 import OnError from './on-error';
 import Backend from './backend';
-import Filters, {filterFields} from './filters';
+import Filters, {minPrice, filterFields} from './filters';
 import RoomsCap from './rooms-cap';
 import DragNDrop from './drag-n-drop';
 
 /* to do
     file loader
-    features filter doesnt work
 */
-
-const minPrice = {
-    'flat': '1000',
-    'house': '5000',
-    'bungalo': '0',
-    'palace': '10000'
-};
 
 export default class{
     constructor(){
@@ -104,7 +96,7 @@ export default class{
 
     addFilters (obj) {
         for(let elem in obj){
-            if(obj[elem] instanceof HTMLCollection) {
+            if(obj[elem] instanceof NodeList) {
                 this.addFilters(obj[elem]);
             } else if(obj[elem] instanceof HTMLElement){
                 obj[elem].addEventListener('change', () => {
