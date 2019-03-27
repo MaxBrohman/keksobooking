@@ -637,6 +637,13 @@ textarea:focus {
 
 .form__photo-container {
   width: 140px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form__photo-container img{
+  width: auto;
+  height: 70px;
 }
 
 .form__element--submit {

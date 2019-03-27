@@ -6,6 +6,7 @@ import Backend from './backend';
 import Filters, {minPrice, filterFields} from './filters';
 import RoomsCap from './rooms-cap';
 import DragNDrop from './drag-n-drop';
+import FileLoader from './file-loader';
 
 /* to do
     file loader
@@ -37,6 +38,8 @@ export default class{
         this.address.value = `${(this.mainPin.getBoundingClientRect().left - this.mainPin.offsetWidth/2).toFixed(0)}, ${(this.mainPin.getBoundingClientRect().bottom + window.pageYOffset).toFixed(0)}`;
         document.querySelectorAll('fieldset').forEach(fs => fs.disabled = false);
         new RoomsCap();
+        new FileLoader(document.querySelector('#avatar'), document.querySelector('.notice__preview').querySelectorAll('img'), 'use');
+        new FileLoader(document.querySelector('#images'), document.querySelector('.form__photo-container'), 'create');
         const onError = new OnError();
         this.data = await new Backend('https://js.dump.academy/keksobooking/data', onError).get();
         this.addFilters(filterFields);
