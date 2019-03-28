@@ -15,8 +15,6 @@ export default class{
         this.filters = document.querySelector('.map__filters-container');
         this.mainPin = this.pins.querySelector('.map__pin--main');
         this.notice = document.querySelector('.notice__form');
-        this.publishBtn = this.notice.querySelector('.form__submit');
-        this.resetBtn = this.notice.querySelector('.form__reset');
         this.address = this.notice.querySelector('#address');
         this.type = document.querySelector('#type');
         this.price = document.querySelector('#price');
@@ -41,7 +39,6 @@ export default class{
             new Backend('https://js.dump.academy/keksobooking').post(values)
             .then(response => {
                 if(response.ok) {
-                    this.publishBtn.textContent = 'Готово!';
                     this.resetMap();
                 } else{
                     throw new Error('при отправке данных');
@@ -50,9 +47,9 @@ export default class{
             .catch(error => onError.render(`Не удалось отправить данные на сервер. Ошибка ${error.message}. Попробуйте позже.`));
         });
         this._isRendered = true;
-        this.resetBtn.onclick = () => {
+        this.notice.addEventListener('reset', () => {
             this.resetMap();
-        };
+        });
     }
 
     async reRender(){

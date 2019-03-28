@@ -15,7 +15,7 @@ export const filterFields = {
     'features': document.querySelector('#housing-features').querySelectorAll('input')
 };
 
-export default class{
+export default class Filters{
     constructor(arr){
         this.arr = arr;
         this.arr = this.filterDefault('type', filterFields['type'].value);

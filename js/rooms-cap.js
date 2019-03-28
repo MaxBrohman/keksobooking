@@ -4,7 +4,7 @@ export default class{
     constructor(){
         this.rooms = document.querySelector('#room_number');
         this.capacity = document.querySelector('#capacity');
-        this.validate = new Event('validate');
+        this.validate = new CustomEvent('validate');
         this.capacity.onmousedown = this.rooms.onmousedown = () => {
             this.capacity.onchange = () => {
                 this.validateMain(this.capacity, this.rooms);

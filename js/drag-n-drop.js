@@ -7,8 +7,6 @@ export default class{
 		this.elem = elem;
 		this.field = field;
 		this.address = document.querySelector('#address');
-		this.initialCoords = this.elem.getBoundingClientRect();
-
 		this.onMouseDown = this.onMouseDown.bind(this);
 		this.onMouseMove = this.onMouseMove.bind(this);
 		this.onMouseUp = this.onMouseUp.bind(this);
@@ -74,8 +72,8 @@ export default class{
 	}
 
 	reset(){
-		this.elem.style.top = this.initialCoords.top;
-		this.elem.style.left = this.initialCoords.left;
+		this.elem.style.top = '';
+		this.elem.style.left = '';
 		this.address.value = `${(this.elem.getBoundingClientRect().left - this.elem.offsetWidth/2).toFixed(0)}, ${(this.elem.getBoundingClientRect().bottom + window.pageYOffset).toFixed(0)}`;
 	}
 };
