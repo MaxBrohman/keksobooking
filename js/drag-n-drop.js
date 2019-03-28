@@ -7,6 +7,7 @@ export default class{
 		this.elem = elem;
 		this.field = field;
 		this.address = document.querySelector('#address');
+		this.initialCoords = this.elem.getBoundingClientRect();
 
 		this.onMouseDown = this.onMouseDown.bind(this);
 		this.onMouseMove = this.onMouseMove.bind(this);
@@ -22,7 +23,7 @@ export default class{
 		if (dragged) {
 			const clickPreventDefault = (evt) => {
 				evt.preventDefault();
-				this.elem.removeEventListener('click', clickPreventDefault)
+				this.elem.removeEventListener('click', clickPreventDefault);
 			};
 			this.elem.addEventListener('click', clickPreventDefault);
 		}
@@ -70,5 +71,11 @@ export default class{
 		if(parseInt(this.elem.style.left) > this.field.clientWidth - this.elem.clientWidth/2) {
 			this.elem.style.left = this.field.clientWidth - this.elem.clientWidth/2 + 'px';
 		}
+	}
+
+	reset(){
+		this.elem.style.top = this.initialCoords.top;
+		this.elem.style.left = this.initialCoords.left;
+		this.address.value = `${(this.elem.getBoundingClientRect().left - this.elem.offsetWidth/2).toFixed(0)}, ${(this.elem.getBoundingClientRect().bottom + window.pageYOffset).toFixed(0)}`;
 	}
 };

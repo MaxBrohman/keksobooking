@@ -15,10 +15,8 @@ export default class{
     async loadHandler(){
         const files = this.loader.files;
         if(this.mode === 'use'){
-            for (let i = 0; i < this.previews.length; i++){
-                if(this.types.test(files[i].name)){
-                    this.initUseReader(this.previews[i], files[i]);
-                }
+            if(this.types.test(files[0].name)){
+                this.initUseReader(this.previews[0], files[0]);
             }
         } else if(this.mode === 'create'){
             const max = files.length > MAX_FILES ? MAX_FILES : files.length;
@@ -49,9 +47,18 @@ export default class{
             reader.addEventListener('load', () => {
                 const img = document.createElement('img');
                 img.src = reader.result;
+                img.dataset.root = 'generated';
                 resolve(img);
             });
             reader.readAsDataURL(file);
         });
+    }
+
+    reset(){
+        if(this.mode === 'use') {
+            this.previews[0].src = 'img/muffin.png';
+        } else if(this.mode === 'create'){
+            this.previews.querySelectorAll('img[data-root="generated"]').forEach(elem => elem.remove());
+        }
     }
 }
