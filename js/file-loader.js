@@ -1,4 +1,5 @@
 //file-loader.js
+
 const MAX_FILES = 5;
 
 export default class{
