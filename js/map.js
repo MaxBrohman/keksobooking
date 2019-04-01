@@ -20,6 +20,8 @@ export default class{
         this.price = document.querySelector('#price');
         this.reRender = this.reRender.bind(this);
         this.mainPin.addEventListener('mouseup', this.reRender);
+        this.fieldsets = document.querySelectorAll('fieldset');
+        this.fieldsets.forEach(fs => fs.disabled = true);
         this.drag = new DragNDrop(this.mainPin, this.map);
         this.avatarLoader = new FileLoader(document.querySelector('#avatar'), document.querySelector('.notice__preview').querySelectorAll('img'), 'use');
         this.previewsLoader = new FileLoader(document.querySelector('#images'), document.querySelector('.form__photo-container'), 'create');
@@ -60,7 +62,7 @@ export default class{
             this.mainPin.removeEventListener('mouseup', this.render);
         });
         this.address.value = `${(this.mainPin.getBoundingClientRect().left - this.mainPin.offsetWidth/2).toFixed(0)}, ${(this.mainPin.getBoundingClientRect().bottom + window.pageYOffset).toFixed(0)}`;
-        document.querySelectorAll('fieldset').forEach(fs => fs.disabled = false);
+        this.fieldsets.forEach(fs => fs.disabled = false);
         this.data = await new Backend('https://js.dump.academy/keksobooking/data', this.onError).get();
         this.renderPins(this.data);
     }
@@ -118,7 +120,7 @@ export default class{
     }
 
     resetMap(){
-        document.querySelectorAll('fieldset').forEach(fs => fs.disabled = true);
+        this.fieldsets.forEach(fs => fs.disabled = true);
         this.notice.reset();
         this.drag.reset();
         this.avatarLoader.reset();
