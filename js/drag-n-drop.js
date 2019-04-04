@@ -1,21 +1,25 @@
 //drag-n-drop.js
+
+//Вспомогательная переменная для отслеживания перетаскивания элемента
 let dragged;
 let startCoords;
-
-export default class{
+export const getAdress = (elem) => {
+	document.querySelector('#address').value = `${(elem.getBoundingClientRect().left - elem.offsetWidth/2).toFixed(0)}, ${(elem.getBoundingClientRect().bottom + window.pageYOffset).toFixed(0)}`;
+};
+export default class DragNDrop{
 	constructor(elem, field){
 		this.elem = elem;
 		this.field = field;
-		this.address = document.querySelector('#address');
 		this.onMouseDown = this.onMouseDown.bind(this);
 		this.onMouseMove = this.onMouseMove.bind(this);
 		this.onMouseUp = this.onMouseUp.bind(this);
 
 		this.elem.addEventListener('mousedown', this.onMouseDown)
 	}
+
 	onMouseUp(evt){
 		evt.preventDefault();
-		this.address.value = `${(this.elem.getBoundingClientRect().left - this.elem.offsetWidth/2).toFixed(0)}, ${(this.elem.getBoundingClientRect().bottom + window.pageYOffset).toFixed(0)}`;
+		getAdress(this.elem);
 		document.removeEventListener('mousemove', this.onMouseMove);
 		document.removeEventListener('mouseup', this.onMouseUp);
 		if (dragged) {
@@ -26,7 +30,7 @@ export default class{
 			this.elem.addEventListener('click', clickPreventDefault);
 		}
 	}
-
+	//При нажатии сохраняются координаты клика 
 	onMouseDown(evt){
 		startCoords = {
 			x: evt.clientX,
@@ -42,7 +46,7 @@ export default class{
 		evt.preventDefault();
 
 		dragged = true;
-
+		/*При движении мыши контролируется разница между начальными координатами и текущими координатами курсора*/
 		const shift = {
 			x: startCoords.x - evt.clientX,
 			y: startCoords.y - evt.clientY
@@ -71,9 +75,10 @@ export default class{
 		}
 	}
 
+	//Возвращение к заданным в CSS координатам при переходе страницы в неактивное состояние
 	reset(){
 		this.elem.style.top = '';
 		this.elem.style.left = '';
-		this.address.value = `${(this.elem.getBoundingClientRect().left - this.elem.offsetWidth/2).toFixed(0)}, ${(this.elem.getBoundingClientRect().bottom + window.pageYOffset).toFixed(0)}`;
+		getAdress(this.elem);
 	}
 };

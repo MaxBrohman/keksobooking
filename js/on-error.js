@@ -8,8 +8,10 @@ export default class{
             this.error.style.display = 'none';
         });
         this.error.querySelector('button').addEventListener('keydown', (evt) => {
-            evt.preventDefault();
-            if(evt.code === 'Enter') this.error.style.display = 'none';
+            if(evt.code === 'Enter') {
+                evt.preventDefault();
+                this.error.style.display = 'none';
+            }
         });
     }
     render(message){

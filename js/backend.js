@@ -1,6 +1,6 @@
 //backend.js
 
-export default class {
+export default class Backend{
     constructor(url, reject){
         this.url = url;
         this.reject = reject;

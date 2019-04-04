@@ -1,7 +1,7 @@
 //file-loader.js
 
 const MAX_FILES = 5;
-
+//Два мода: с использованием имеющейся разметки - use и для создания разметки - create 
 export default class{
     constructor(loader, previews, mode){
         this.loader = loader;
@@ -41,7 +41,7 @@ export default class{
         });
         reader.readAsDataURL(file);
     }
-
+    //Необходимо дождаться загрузки изображений и получить img для рендера 
     initCreateReader(file){
         return new Promise(resolve => {
             const reader = new FileReader();

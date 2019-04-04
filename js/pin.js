@@ -1,6 +1,7 @@
-//map-pin.js
+//pin.js
 
-export default class{
+//Создание метки объявления
+export default class Pin{
     constructor(options){
         this.pin = document.querySelector('template').content.querySelector('.map__pin').cloneNode(true);
         this.pin.data = options;
@@ -10,8 +11,27 @@ export default class{
         this.avatar.src = options['author']['avatar'];
         this.avatar.alt = options['offer']['tittle'];
     }
-    render(){
+    pinHandler(handler){
+        this.pin.addEventListener('click', () => {
+            handler(this.pin);
+        });
+        this.pin.addEventListener('keydown', (evt) => {
+            if(evt.code === 'Enter'){
+                evt.preventDefault();
+                handler(this.pin);
+            }
+        });
+    }
+    render(func){
         this.pin.setAttribute('tabindex', '0');
+        this.pinHandler(func)
         return this.pin;
+    }
+
+    static renderAllPins(arr, clearPins, handler){
+        clearPins();
+        const fragment = document.createDocumentFragment();
+        arr.forEach(item => fragment.appendChild(new this(item).render(handler)));
+        return fragment;
     }
 };

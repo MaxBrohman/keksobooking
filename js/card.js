@@ -5,7 +5,8 @@ const offerTypes = {
     'house': 'Дом',
     'bungalo': 'Бунгало'
 };
-export default class{
+//Класс для создания и рендера карточки объявления
+export default class Card{
     constructor(options){
         this.card = document.querySelector('template').content.querySelector('.map__card').cloneNode(true);
         this.title = this.fillElem('.popup__tittle', 'textContent', options['offer']['tittle']);

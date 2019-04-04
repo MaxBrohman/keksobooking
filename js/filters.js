@@ -14,7 +14,7 @@ export const filterFields = {
     'prices': document.querySelector('#housing-price'),
     'features': document.querySelector('#housing-features').querySelectorAll('input')
 };
-
+//Фильтрация массива данных, полученных с сервера
 export default class Filters{
     constructor(arr){
         this.arr = arr;

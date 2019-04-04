@@ -1,18 +1,19 @@
 //rooms-cap.js
 
-export default class{
+/*Для того, чтобы изменение в любом из двух взаимосвязанных полей сообщалось во второе
+ поле, создается кастомное событие validate, срабатывающее при изменении одного поля на
+  другом.  */
+export default class RoomsCap{
     constructor(){
         this.rooms = document.querySelector('#room_number');
         this.capacity = document.querySelector('#capacity');
         this.validate = new CustomEvent('validate');
-        this.capacity.onmousedown = this.rooms.onmousedown = () => {
-            this.capacity.onchange = () => {
-                this.validateMain(this.capacity, this.rooms);
-            };
-            this.rooms.onchange = () => {
-                this.validateMain(this.rooms, this.capacity);
-            };
-        };
+        this.capacity.addEventListener('change', () => {
+            this.validateMain(this.capacity, this.rooms);
+        });
+        this.rooms.addEventListener('change', () => {
+            this.validateMain(this.rooms, this.capacity);
+        });
         this.capacity.addEventListener('validate', () => {
             this.validateRelative(this.capacity);
         });
@@ -40,7 +41,6 @@ export default class{
     }
     validateRelative(relativeElem){
         this.checkRoomNumber(this.rooms.value, this.capacity.value, relativeElem);
-        relativeElem.onchange = null;
     }
     validateMain(mainElem, relativeElem){
         this.checkRoomNumber(this.rooms.value, this.capacity.value, mainElem);
