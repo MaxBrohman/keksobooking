@@ -28,6 +28,7 @@ export default class Pin{
         return this.pin;
     }
 
+    //Метод не требует создания экземпляра класса, поскольку сам их создает
     static renderAllPins(arr, clearPins, handler){
         clearPins();
         const fragment = document.createDocumentFragment();
