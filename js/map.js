@@ -36,7 +36,7 @@ export default class Map{
     /*Срабатывает единожды при первоначальном запуске, в дальнейшем при выходе из неактивного состояния, срабатывает только reRender*/
     initialRender(){
         new RoomsCap();
-        this.addFilters(filterFields);
+        filterFields.addFilters(filterFields.elems, this.filtersHandler.bind(this));
         this.notice.addEventListener('submit', (evt) => {
             evt.preventDefault();
             const values = new FormData(this.notice);
@@ -49,7 +49,7 @@ export default class Map{
                     throw new Error('при отправке данных');
                 }
             })
-            .catch(error => onError.render(`Не удалось отправить данные на сервер. Ошибка ${error.message}. Попробуйте позже.`));
+            .catch(error => this.onError.render(`Не удалось отправить данные на сервер. Ошибка ${error.message}. Попробуйте позже.`));
         });
         this.type.addEventListener('change', () => {
             this.price.setAttribute('min', minPrice[this.type.value]);
@@ -81,7 +81,8 @@ export default class Map{
             this._isCard = false;
         }
     }
-
+    /*Карточка объявления отрисовывается по информации об объявлении, сохраненной 
+    в объекте pin при его создании */
     appendCard(pin){
         if(this._isCard){
             this.map.replaceChild(new Card(pin.data).render(),                  this.map.querySelector('.map__card'));
@@ -92,16 +93,8 @@ export default class Map{
         }
     }
 
-    addFilters (obj) {
-        for(let elem in obj){
-            if(obj[elem] instanceof NodeList) {
-                this.addFilters(obj[elem]);
-            } else if(obj[elem] instanceof HTMLElement){
-                obj[elem].addEventListener('change', () => {
-                    this.pins.appendChild(Pin.renderAllPins(new Filters(this.data), this.clearPinsAndCard, this.appendCard));
-                });
-            }
-        }
+    filtersHandler(){
+        this.pins.appendChild(Pin.renderAllPins(new Filters(this.data), this.clearPinsAndCard, this.appendCard));
     }
 
     resetMap(){
